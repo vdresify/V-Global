@@ -3,73 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>V-GLOBAL | Premium Talent & Business Hub</title>
+    <title>V-GLOBAL | Premium Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; }
         .gold-text { color: #D4AF37; }
-        .gold-bg { background-color: #D4AF37; }
-        .glass { background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(20px); }
-        .card-lux { background: #0f0f0f; border: 1px solid #1f1f1f; transition: 0.3s; }
-        .card-lux:hover { border-color: #D4AF37; box-shadow: 0 0 20px rgba(212, 175, 55, 0.1); }
-        .status-verified { color: #D4AF37; font-weight: 800; font-size: 10px; }
+        .gold-bg { background: linear-gradient(45deg, #D4AF37, #f1c40f); }
+        .glass { background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(20px); }
+        .card-lux { background: #0f0f0f; border: 1px solid #1f1f1f; border-radius: 2rem; transition: 0.3s; }
+        #sideMenu { transition: 0.4s; transform: translateX(100%); }
+        #sideMenu.active { transform: translateX(0); }
+        .input-dark { background: #111; border: 1px solid #222; padding: 15px; border-radius: 1rem; width: 100%; outline: none; }
+        .input-dark:focus { border-color: #D4AF37; }
     </style>
 </head>
 <body class="pb-24">
 
     <nav class="fixed top-0 w-full z-[100] glass border-b border-zinc-800 px-6 py-4 flex justify-between items-center">
-        <div class="text-2xl font-black tracking-tighter uppercase">V-<span class="gold-text">GLOBAL</span></div>
-        <div class="flex items-center gap-4 text-xs font-bold">
-            <span class="gold-text">ENG</span> | <span>HIN</span>
-            <button onclick="toggleMenu()" class="text-3xl gold-text leading-none ml-2">⋮</button>
+        <div class="text-2xl font-black tracking-tighter">V-<span class="gold-text">GLOBAL</span></div>
+        <div class="flex gap-4 items-center">
+            <button onclick="openAuth()" class="text-[10px] font-black border border-zinc-700 px-4 py-2 rounded-full uppercase">Login</button>
+            <button onclick="toggleMenu()" class="text-3xl gold-text leading-none">⋮</button>
         </div>
     </nav>
 
-    <div class="mt-20 px-6">
-        <div class="w-full h-40 bg-zinc-900 rounded-[2rem] overflow-hidden relative border border-zinc-800 shadow-xl">
-            <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent p-6 flex flex-col justify-end">
-                <span class="text-[8px] gold-bg text-black px-2 py-0.5 rounded-full w-fit font-black mb-1">FEATURED MODEL</span>
-                <h3 class="text-lg font-black leading-none">JOIN THE 21-DAY CHALLENGE</h3>
+    <div id="sideMenu" class="fixed inset-0 z-[200] bg-black p-8 flex flex-col">
+        <div class="flex justify-between items-center mb-10">
+            <h2 class="text-2xl font-black gold-text italic tracking-tighter">V-HUB</h2>
+            <button onclick="toggleMenu()" class="text-4xl text-zinc-600">&times;</button>
+        </div>
+        <div class="space-y-6 overflow-y-auto">
+            <div onclick="showTab('refer')" class="border-b border-zinc-900 pb-4">
+                <p class="text-xs gold-text font-black uppercase">🔗 Referral Program</p>
+                <p class="text-[10px] text-zinc-500">Earn 100 VC per friend</p>
+            </div>
+            <div onclick="showTab('rewards')" class="border-b border-zinc-900 pb-4">
+                <p class="text-xs gold-text font-black uppercase">🎁 My Rewards</p>
+                <p class="text-[10px] text-zinc-500">Check badges & streaks</p>
+            </div>
+            <div onclick="showTab('seller')" class="border-b border-zinc-900 pb-4">
+                <p class="text-xs gold-text font-black uppercase">💼 Seller Services</p>
+                <p class="text-[10px] text-zinc-500">Manage products</p>
+            </div>
+            <div onclick="showTab('model')" class="border-b border-zinc-900 pb-4">
+                <p class="text-xs gold-text font-black uppercase">📸 Model Portal</p>
+                <p class="text-[10px] text-zinc-500">Casting & Portfolio</p>
+            </div>
+            <div class="opacity-10 mt-10 text-center" onclick="openAdmin()">
+                <p class="text-[8px] tracking-[10px]">ADMIN ACCESS</p>
             </div>
         </div>
     </div>
 
-    <main class="mt-8 px-6 space-y-6">
-        
-        <div class="card-lux p-8 rounded-[2.5rem] relative overflow-hidden">
-            <div class="flex justify-between items-start">
-                <div>
-                    <p class="text-[10px] text-zinc-500 tracking-[0.3em] font-bold uppercase mb-4">V-Global Wallet</p>
-                    <h1 class="text-5xl font-black">1,250 <span class="text-lg gold-text tracking-normal">VC</span></h1>
-                    <p class="text-[10px] text-green-500 mt-2 font-bold italic">● 21-Day Streak Active <span class="status-verified ml-2">✓ GOLD BADGE</span></p>
-                </div>
-                <button onclick="openPayment()" class="gold-bg text-black text-[10px] font-black px-6 py-3 rounded-full uppercase">REDEEM</button>
+    <main id="contentArea" class="mt-24 px-6 space-y-8">
+        <div class="w-full h-48 bg-zinc-900 rounded-[2.5rem] relative overflow-hidden border border-zinc-800">
+            <div class="absolute inset-0 bg-gradient-to-t from-black p-8 flex flex-col justify-end">
+                <h1 class="text-xl font-black">PREMIUM MODEL HUNT <br><span class="gold-text">SUMMER '26</span></h1>
             </div>
+        </div>
+
+        <div class="card-lux p-6 flex justify-between items-center">
+            <div>
+                <p class="text-[9px] text-zinc-500 font-bold uppercase tracking-widest">My V-Coins</p>
+                <h2 class="text-2xl font-black italic">1,250 <span class="text-xs gold-text">VC</span></h2>
+            </div>
+            <button class="gold-bg text-black text-[10px] font-black px-6 py-2 rounded-full shadow-lg shadow-yellow-500/10">REDEEM</button>
         </div>
 
         <div>
-            <h2 class="text-xs font-black tracking-widest uppercase mb-4 text-zinc-500">Talent & Video Portfolio</h2>
+            <h2 class="text-xs font-black text-zinc-500 uppercase tracking-[0.2em] mb-4">Marketplace</h2>
             <div class="grid grid-cols-2 gap-4">
-                <div class="card-lux h-48 rounded-[2rem] p-4 flex flex-col justify-end">
-                    <p class="text-[10px] font-bold">Model Portfolio</p>
-                    <span class="text-[8px] text-zinc-500">View Details & Photos</span>
-                </div>
-                <div class="card-lux h-48 rounded-[2rem] p-4 flex flex-col justify-end relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-full bg-zinc-800 flex items-center justify-center">▶️</div>
-                    <p class="text-[10px] font-bold z-10">Video Showcase</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="card-lux p-6 rounded-[2.5rem]">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xs font-black tracking-widest uppercase text-zinc-500">Global Market</h2>
-                <button class="text-[9px] border border-zinc-700 px-3 py-1 rounded-full">+ LIST PRODUCT</button>
-            </div>
-            <div class="flex gap-4 overflow-x-auto pb-2 no-scrollbar">
-                <div class="min-w-[140px] bg-zinc-950 p-3 rounded-2xl border border-zinc-900">
-                    <div class="w-full h-24 bg-zinc-900 rounded-xl mb-2"></div>
+                <div class="card-lux p-4">
+                    <div class="w-full h-24 bg-zinc-800 rounded-2xl mb-2"></div>
                     <p class="text-[10px] font-bold">Nutri-Flex Pro</p>
                     <p class="text-xs gold-text font-black">Rs. 999</p>
                 </div>
@@ -77,62 +83,58 @@
         </div>
     </main>
 
-    <a href="https://wa.me/917977659650" target="_blank" class="fixed bottom-6 right-6 w-14 h-14 bg-green-600 rounded-full shadow-2xl flex items-center justify-center text-2xl z-50 border-2 border-white/20">📱</a>
-
-    <div id="adminModal" class="hidden fixed inset-0 glass z-[500] p-6 flex items-center justify-center">
-        <div class="w-full max-w-sm bg-black border border-zinc-800 p-10 rounded-[3rem] text-center shadow-2xl">
-            <h2 class="text-2xl font-black gold-text mb-6 uppercase">Admin Access</h2>
-            <input id="admUser" type="text" placeholder="Username" class="w-full bg-zinc-900 border border-zinc-800 p-4 rounded-2xl mb-3 outline-none focus:border-gold">
-            <input id="admPass" type="password" placeholder="Password" class="w-full bg-zinc-900 border border-zinc-800 p-4 rounded-2xl mb-6 outline-none focus:border-gold">
-            <button onclick="checkAdmin()" class="w-full gold-bg text-black py-4 rounded-2xl font-black">LOGIN</button>
-            <button onclick="closeAdmin()" class="mt-4 text-xs text-zinc-500 uppercase">Cancel</button>
+    <div id="authModal" class="hidden fixed inset-0 glass z-[500] flex items-center justify-center p-6">
+        <div class="w-full max-w-sm bg-black border border-zinc-800 p-8 rounded-[3rem] text-center shadow-2xl">
+            <h2 id="authTitle" class="text-2xl font-black gold-text mb-6 uppercase">Sign In</h2>
+            <div class="space-y-4">
+                <input type="email" placeholder="Email Address" class="input-dark">
+                <input type="password" placeholder="Password" class="input-dark">
+                <button onclick="alert('Firebase Setup Required!')" class="w-full gold-bg text-black py-4 rounded-2xl font-black uppercase text-xs">Continue</button>
+            </div>
+            <p onclick="toggleAuthType()" id="authToggle" class="mt-6 text-[10px] text-zinc-500 uppercase cursor-pointer">Don't have an account? <span class="gold-text">Signup</span></p>
+            <button onclick="closeAuth()" class="mt-4 text-[10px] text-zinc-700">Cancel</button>
         </div>
     </div>
 
-    <div id="payModal" class="hidden fixed inset-0 glass z-[500] p-6 flex items-center justify-center text-center">
-        <div class="w-full max-w-sm bg-black border border-zinc-800 p-10 rounded-[3rem]">
-            <h2 class="text-xl font-black gold-text mb-4 uppercase">Pay via UPI</h2>
-            <p class="text-xs text-zinc-400 mb-6">Send to: 917977659650@paytm</p>
-            <div class="w-40 h-40 bg-white mx-auto mb-6 rounded-xl flex items-center justify-center text-black font-bold">QR CODE HERE</div>
-            <button onclick="document.getElementById('payModal').classList.add('hidden')" class="w-full gold-bg text-black py-4 rounded-2xl font-black">DONE</button>
+    <div id="adminModal" class="hidden fixed inset-0 glass z-[600] flex items-center justify-center p-6">
+        <div class="w-full max-w-sm bg-black border border-zinc-800 p-8 rounded-[3rem]">
+            <h2 class="text-xl font-black gold-text mb-6 uppercase text-center italic">Command Center</h2>
+            <input id="admPass" type="password" placeholder="Enter Master Key" class="input-dark mb-4">
+            <button onclick="checkAdmin()" class="w-full gold-bg text-black py-4 rounded-2xl font-black uppercase">Unlock</button>
         </div>
     </div>
 
     <script>
-    function toggleMenu() { document.getElementById('adminModal').classList.remove('hidden'); }
-    function closeAdmin() { document.getElementById('adminModal').classList.add('hidden'); }
-    function openPayment() { document.getElementById('payModal').classList.remove('hidden'); }
+        const menu = document.getElementById('sideMenu');
+        const authModal = document.getElementById('authModal');
+        const adminModal = document.getElementById('adminModal');
+        let isLogin = true;
 
-    function checkAdmin() {
-        const u = document.getElementById('admUser').value;
-        const p = document.getElementById('admPass').value;
-        
-        if(u === 'little demon' && p === 'vinayaktiwari#12') {
-            document.getElementById('adminModal').innerHTML = `
-                <div class="w-full text-left">
-                    <h2 class="text-xl font-black gold-text mb-4 uppercase">Command Center</h2>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="text-[10px] text-zinc-500 font-bold">USER ID</label>
-                            <input id="targetId" type="text" placeholder="e.g. USER001" class="w-full bg-zinc-900 border border-zinc-800 p-3 rounded-xl outline-none">
-                        </div>
-                        <div>
-                            <label class="text-[10px] text-zinc-500 font-bold">ADD/SUBTRACT COINS</label>
-                            <input id="coinAmount" type="number" placeholder="500" class="w-full bg-zinc-900 border border-zinc-800 p-3 rounded-xl outline-none">
-                        </div>
-                        <div class="flex gap-2">
-                            <button onclick="alert('Coins Updated!')" class="flex-1 gold-bg text-black py-3 rounded-xl font-black text-xs uppercase">Update VC</button>
-                            <button onclick="alert('User Banned!')" class="flex-1 bg-red-600 text-white py-3 rounded-xl font-black text-xs uppercase">Ban User</button>
-                        </div>
-                        <button onclick="location.reload()" class="w-full text-[10px] text-zinc-500 mt-4 text-center uppercase tracking-widest font-bold">Logout Session</button>
-                    </div>
-                </div>
-            `;
-        } else {
-            alert('Access Denied: Galat Password hai bhai!');
+        function toggleMenu() { menu.classList.toggle('active'); }
+        function openAuth() { authModal.classList.remove('hidden'); }
+        function closeAuth() { authModal.classList.add('hidden'); }
+        function openAdmin() { adminModal.classList.remove('hidden'); toggleMenu(); }
+
+        function toggleAuthType() {
+            isLogin = !isLogin;
+            document.getElementById('authTitle').innerText = isLogin ? "Sign In" : "Join Global";
+            document.getElementById('authToggle').innerHTML = isLogin ? "Don't have an account? <span class='gold-text'>Signup</span>" : "Already a member? <span class='gold-text'>Login</span>";
         }
-    }
+
+        function showTab(tab) {
+            const area = document.getElementById('contentArea');
+            toggleMenu();
+            if(tab === 'refer') {
+                area.innerHTML = `<div class="pt-6 space-y-4 text-center"><h2 class="text-2xl font-black gold-text uppercase italic">Refer & Earn</h2><div class="card-lux p-10 border-dashed"><p class="text-xs text-zinc-500 mb-4 uppercase">Your Code</p><p class="text-3xl font-black tracking-widest mb-6">VG-992</p><button class="gold-bg text-black px-8 py-3 rounded-full font-black text-[10px] uppercase">Copy Link</button></div><button onclick="location.reload()" class="text-[10px] text-zinc-600 uppercase underline">Back</button></div>`;
+            }
+        }
+
+        function checkAdmin() {
+            const p = document.getElementById('admPass').value;
+            if(p === 'vinayaktiwari#12') {
+                adminModal.innerHTML = `<div class="p-2 space-y-4"><h2 class="text-lg font-black gold-text">MASTER MODE</h2><button class="w-full bg-zinc-900 p-4 rounded-xl text-xs font-bold text-left uppercase">➕ ADD PRODUCT</button><button class="w-full bg-zinc-900 p-4 rounded-xl text-xs font-bold text-left uppercase">💰 UPDATE VC</button><button onclick="location.reload()" class="w-full text-center text-zinc-500 text-[10px] mt-4 uppercase">Logout</button></div>`;
+            } else { alert("Galat key!"); }
+        }
     </script>
-    
 </body>
 </html>
