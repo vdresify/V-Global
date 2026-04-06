@@ -99,20 +99,40 @@
     </div>
 
     <script>
-        function toggleMenu() { /* Triggered via 3 dots */ document.getElementById('adminModal').classList.remove('hidden'); }
-        function closeAdmin() { document.getElementById('adminModal').classList.add('hidden'); }
-        function openPayment() { document.getElementById('payModal').classList.remove('hidden'); }
+    function toggleMenu() { document.getElementById('adminModal').classList.remove('hidden'); }
+    function closeAdmin() { document.getElementById('adminModal').classList.add('hidden'); }
+    function openPayment() { document.getElementById('payModal').classList.remove('hidden'); }
+
+    function checkAdmin() {
+        const u = document.getElementById('admUser').value;
+        const p = document.getElementById('admPass').value;
         
-        function checkAdmin() {
-            const u = document.getElementById('admUser').value;
-            const p = document.getElementById('admPass').value;
-            if(u === 'little demon' && p === 'vinayaktiwari#12') {
-                alert('Welcome Boss! Redirecting to Command Center...');
-                // Hum yahan se Supabase logic connect karenge agle step mein
-            } else {
-                alert('Access Denied: Wrong Credentials');
-            }
+        if(u === 'little demon' && p === 'vinayaktiwari#12') {
+            document.getElementById('adminModal').innerHTML = `
+                <div class="w-full text-left">
+                    <h2 class="text-xl font-black gold-text mb-4 uppercase">Command Center</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="text-[10px] text-zinc-500 font-bold">USER ID</label>
+                            <input id="targetId" type="text" placeholder="e.g. USER001" class="w-full bg-zinc-900 border border-zinc-800 p-3 rounded-xl outline-none">
+                        </div>
+                        <div>
+                            <label class="text-[10px] text-zinc-500 font-bold">ADD/SUBTRACT COINS</label>
+                            <input id="coinAmount" type="number" placeholder="500" class="w-full bg-zinc-900 border border-zinc-800 p-3 rounded-xl outline-none">
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="alert('Coins Updated!')" class="flex-1 gold-bg text-black py-3 rounded-xl font-black text-xs uppercase">Update VC</button>
+                            <button onclick="alert('User Banned!')" class="flex-1 bg-red-600 text-white py-3 rounded-xl font-black text-xs uppercase">Ban User</button>
+                        </div>
+                        <button onclick="location.reload()" class="w-full text-[10px] text-zinc-500 mt-4 text-center uppercase tracking-widest font-bold">Logout Session</button>
+                    </div>
+                </div>
+            `;
+        } else {
+            alert('Access Denied: Galat Password hai bhai!');
         }
+    }
     </script>
+    
 </body>
 </html>
