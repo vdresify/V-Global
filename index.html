@@ -3,155 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>V-GLOBAL | Master Business Portal</title>
+    <title>V-GLOBAL | Leaderboard & Ecosystem</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <style>
-        :root { --gold: #D4AF37; --dark: #050505; }
+        :root { --gold: #D4AF37; --silver: #C0C0C0; --bronze: #CD7F32; --dark: #050505; }
         body { background-color: var(--dark); color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         .gold-text { color: var(--gold); }
         .gold-bg { background: linear-gradient(90deg, #BF953F, #FCF6BA, #B38728); }
-        .glass { background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(25px); border-bottom: 1px solid #222; }
-        .card-lux { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 2rem; transition: 0.3s; }
-        .nav-title { font-family: 'Syncopate', sans-serif; letter-spacing: -1px; }
-        #sideMenu { transition: 0.5s cubic-bezier(0.85, 0, 0.15, 1); transform: translateX(100%); position: fixed; inset: 0; z-index: 1000; background: black; padding: 2rem; }
+        .glass { background: rgba(10, 10, 10, 0.96); backdrop-filter: blur(30px); border-bottom: 1px solid #222; }
+        .card-lux { background: #0c0c0c; border: 1px solid #1a1a1a; border-radius: 1.5rem; transition: 0.3s; }
+        #sideMenu { transition: 0.6s cubic-bezier(0.85, 0, 0.15, 1); transform: translateX(100%); position: fixed; inset: 0; z-index: 1000; background: black; padding: 2rem; }
         #sideMenu.active { transform: translateX(0); }
-        .search-bar { background: #111; border: 1px solid #222; padding: 14px 22px; border-radius: 1.2rem; width: 100%; outline: none; font-size: 11px; }
-        .user-circle { border: 2px solid var(--gold); border-radius: 99px; height: 55px; width: 55px; display: flex; align-items: center; justify-content: center; background: #000; }
-        .shayari-box { border-left: 3px solid var(--gold); padding-left: 15px; font-style: italic; }
+        .lang-btn { font-size: 10px; border: 1px solid #333; padding: 4px 8px; border-radius: 5px; cursor: pointer; }
+        .lang-btn.active { border-color: var(--gold); color: var(--gold); }
+        input { background: #111; border: 1px solid #222; border-radius: 0.8rem; padding: 12px; width: 100%; color: white; outline: none; font-size: 11px; }
+        .rank-1 { border: 1px solid var(--gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.1); }
     </style>
 </head>
 <body class="pb-32">
 
-    <nav class="fixed top-0 w-full z-[100] glass px-6 py-6 flex justify-between items-center">
-        <div class="nav-title text-xl font-bold italic uppercase">V-<span class="gold-text">GLOBAL</span></div>
-        <div class="flex items-center gap-4">
-            <span class="text-[8px] gold-text font-black border border-gold-text px-2 py-1 rounded">MASTER ACCESS</span>
-            <button onclick="toggleMenu()" class="text-3xl gold-text">⋮</button>
+    <nav class="fixed top-0 w-full z-[100] glass px-6 py-4">
+        <div class="flex justify-between items-center mb-3">
+            <div style="font-family:'Syncopate'" class="text-lg font-bold italic uppercase">V-<span class="gold-text">GLOBAL</span></div>
+            <button onclick="toggleMenu()" class="text-2xl gold-text">⋮</button>
+        </div>
+        <div class="flex gap-2 overflow-x-auto pb-1">
+            <span class="lang-btn active" onclick="setLang('en')">English</span>
+            <span class="lang-btn" onclick="setLang('hn')">Hnglish</span>
+            <span class="lang-btn" onclick="setLang('hi')">Hindi</span>
         </div>
     </nav>
 
     <div id="sideMenu">
-        <div class="flex justify-end mb-6"><button onclick="toggleMenu()" class="text-5xl text-zinc-800">&times;</button></div>
-        
-        <div class="flex items-center mb-10 pb-6 border-b border-zinc-900">
-            <div class="user-circle mr-4"><span id="userInitial" class="text-3xl font-black gold-text italic">V</span></div>
-            <div>
-                <p class="text-[8px] text-zinc-600 font-black uppercase tracking-widest">Welcome,</p>
-                <h2 id="userName" class="text-xl font-black gold-text italic">Mr. Vinayak</h2>
-            </div>
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="gold-text font-black italic uppercase text-xs">Ecosystem Menu</h2>
+            <button onclick="toggleMenu()" class="text-4xl text-zinc-700">&times;</button>
         </div>
-
         <div class="space-y-4">
-            <div onclick="showSection('seller')" class="card-lux p-6 flex justify-between items-center"><p class="text-[10px] gold-text font-black uppercase italic">💼 Seller Hub</p><span>❯</span></div>
-            <div onclick="showSection('model')" class="card-lux p-6 flex justify-between items-center"><p class="text-[10px] gold-text font-black uppercase italic">📸 Model Hunt</p><span>❯</span></div>
-            <div onclick="showSection('ads')" class="card-lux p-6 flex justify-between items-center"><p class="text-[10px] gold-text font-black uppercase italic">📺 YouTuber Ads</p><span>❯</span></div>
-            <div onclick="showSection('refer')" class="card-lux p-6 flex justify-between items-center"><p class="text-[10px] gold-text font-black uppercase italic">🔗 Refer & Earn</p><span>❯</span></div>
-        </div>
-
-        <div class="mt-12 text-center space-y-4">
-            <a href="https://wa.me/918808722351" class="text-[10px] gold-text uppercase font-black underline italic">Contact Master Support</a>
+            <div onclick="showPortal('seller')" class="card-lux p-6 flex justify-between"><span class="text-[10px] gold-text font-black uppercase italic">💼 Seller Portal</span><span>❯</span></div>
+            <div onclick="showPortal('model')" class="card-lux p-6 flex justify-between"><span class="text-[10px] gold-text font-black uppercase italic">📸 Model Casting</span><span>❯</span></div>
+            <div onclick="showPortal('refer')" class="card-lux p-6 flex justify-between"><span class="text-[10px] gold-text font-black uppercase italic">🔗 Refer & Earn</span><span>❯</span></div>
         </div>
     </div>
 
-    <main id="mainContent" class="mt-32 px-6 space-y-10">
+    <main id="mainContent" class="mt-40 px-6 space-y-10">
         
-        <div class="card-lux p-8 bg-zinc-950 border-zinc-900">
-            <p class="text-[8px] text-zinc-600 font-black uppercase tracking-[0.4em] mb-4">Business Motivation</p>
-            <div id="shayariBox" class="shayari-box">
-                <p class="text-sm font-medium leading-relaxed">"Sikkay hamesha awaaz karte hain magar Note hamesha khamosh rehte hain, Isliye jab apki qadar bade toh hamesha khamosh raho."</p>
-            </div>
-            <button onclick="nextShayari()" class="mt-4 text-[8px] gold-text font-black uppercase tracking-widest italic">Next Quote ❯</button>
-        </div>
-
-        <div class="space-y-3">
-            <h3 class="text-[9px] font-black text-zinc-500 uppercase tracking-widest px-1">Global Search</h3>
-            <input type="text" id="mainSearch" onkeyup="handleSearch()" placeholder="Search User IDs (VG-01) or Products..." class="search-bar">
-            <div id="searchResults" class="hidden space-y-3"></div>
-        </div>
-
-        <div class="card-lux p-8 border-red-900/30">
-            <h2 class="text-sm font-black gold-text uppercase italic mb-2 tracking-widest">YouTuber Promotion</h2>
-            <p class="text-[8px] text-zinc-500 mb-6 uppercase">Promote your channel to the V-Global community.</p>
-            <div class="space-y-3">
-                <input id="ytName" placeholder="Channel Name" class="search-bar bg-black">
-                <input id="ytLink" placeholder="YouTube URL" class="search-bar bg-black">
-                <button onclick="submitYTPromo()" class="w-full gold-bg text-black py-4 rounded-2xl text-[10px] font-black uppercase italic">Start Promotion</button>
-            </div>
-        </div>
-
         <div class="space-y-4">
-            <h2 class="text-[9px] font-black text-zinc-600 tracking-[0.5em] uppercase px-1">Recent Inventory</h2>
-            <div class="grid grid-cols-2 gap-4 pb-20">
-                <div class="card-lux p-4"><div class="aspect-square bg-zinc-900 rounded-2xl mb-2"></div><p class="text-[8px] font-black uppercase">V-Luxury Item</p></div>
-                <div class="card-lux p-4"><div class="aspect-square bg-zinc-900 rounded-2xl mb-2"></div><p class="text-[8px] font-black uppercase">V-Service</p></div>
+            <h3 class="text-[9px] font-black text-zinc-600 uppercase tracking-[0.4em] px-1">Global Leaderboard</h3>
+            <div class="space-y-3">
+                <div class="card-lux p-4 flex justify-between items-center rank-1 bg-gradient-to-r from-black to-zinc-950">
+                    <div class="flex items-center gap-4">
+                        <span class="text-xl italic font-black gold-text">01</span>
+                        <div><p class="text-[10px] font-black uppercase">Vinayak Tiwari</p><p class="text-[7px] gold-text uppercase">Master Merchant</p></div>
+                    </div>
+                    <p class="text-xs font-black gold-text">12,450 VC</p>
+                </div>
+                <div class="card-lux p-4 flex justify-between items-center border-zinc-800 opacity-80">
+                    <div class="flex items-center gap-4">
+                        <span class="text-lg italic font-black text-zinc-400">02</span>
+                        <div><p class="text-[9px] font-black uppercase">Rahul Kumar</p></div>
+                    </div>
+                    <p class="text-xs font-black text-zinc-400 italic">8,200 VC</p>
+                </div>
             </div>
         </div>
+
+        <div class="card-lux p-8 border-red-900/20 bg-zinc-950">
+            <h2 class="text-sm font-black gold-text uppercase italic mb-1 tracking-widest">YouTube Ads Promotion</h2>
+            <p class="text-[8px] text-zinc-600 mb-6 uppercase">Promote yourself automatically in 24 hours.</p>
+            <div class="space-y-3">
+                <input id="ytName" placeholder="Channel Name">
+                <input id="ytLink" placeholder="Paste Channel/Video Link">
+                <button onclick="submitYT()" class="w-full gold-bg text-black py-4 rounded-xl text-[10px] font-black uppercase italic">Submit Promotion</button>
+            </div>
+        </div>
+
+        <div id="portalArea" class="hidden"></div>
     </main>
 
     <script>
-        // FIREBASE INITIALIZATION
-        const firebaseConfig = {
-            apiKey: "AIzaSyAS_hCWbLbNfcZJ8CJOzR5OOWEhAixcjJU",
-            authDomain: "v-global-eff1e.firebaseapp.com",
-            projectId: "v-global-eff1e",
-            storageBucket: "v-global-eff1e.firebasestorage.app",
-            messagingSenderId: "686810708424",
-            appId: "1:686810708424:web:cef8d92f19a0e36ca168fd"
-        };
+        // FIREBASE
+        const firebaseConfig = { apiKey: "AIzaSyAS_hCWbLbNfcZJ8CJOzR5OOWEhAixcjJU", authDomain: "v-global-eff1e.firebaseapp.com", projectId: "v-global-eff1e", storageBucket: "v-global-eff1e.firebasestorage.app", messagingSenderId: "686810708424", appId: "1:686810708424:web:cef8d92f19a0e36ca168fd" };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
         function toggleMenu() { document.getElementById('sideMenu').classList.toggle('active'); }
 
-        // BUSINESS SHAYARI LIST
-        const shayaris = [
-            '"Sikkay hamesha awaaz karte hain magar Note hamesha khamosh rehte hain, Isliye jab apki qadar bade toh hamesha khamosh raho."',
-            '"Dhandha wahi hai jo doosron ki zarurat poori kare aur aapka khwab."',
-            '"Entrepreneurship wo hai jo aap wo karte hain jo baaki nahi karna chahte, taaki aap wo paa sakein jo baaki nahi paa sakte."',
-            '"Mehnat itni khamoshi se karo ki tumhari kamyabi shor macha de."'
-        ];
-        let currentS = 0;
-        function nextShayari() {
-            currentS = (currentS + 1) % shayaris.length;
-            document.querySelector('#shayariBox p').innerText = shayaris[currentS];
+        // REFERRAL & PORTAL LOGIC
+        function showPortal(type) {
+            toggleMenu();
+            const area = document.getElementById('portalArea');
+            const main = document.getElementById('mainContent');
+            area.classList.remove('hidden');
+            
+            if(type === 'refer') {
+                area.innerHTML = `<div class="card-lux p-10 text-center space-y-6">
+                    <h2 class="gold-text font-black italic uppercase text-lg underline">Refer & Earn</h2>
+                    <p class="text-[8px] text-zinc-500 uppercase">Share your code and get 500 V-Coins per refer.</p>
+                    <div class="border-2 border-dashed border-zinc-800 p-6 rounded-2xl">
+                        <p class="text-3xl font-black tracking-[10px] gold-text">V-G99</p>
+                    </div>
+                    <button class="gold-bg text-black px-10 py-3 rounded-full text-[10px] font-black uppercase italic">Share Code</button>
+                    <button onclick="location.reload()" class="block w-full text-zinc-700 text-[9px] uppercase mt-10">Close</button>
+                </div>`;
+                window.scrollTo(0, 0);
+            }
         }
 
-        // SMART GREETING UI
-        function setUI(name, gender = 'Mr') {
-            document.getElementById('userName').innerText = `${gender}. ${name}`;
-            document.getElementById('userInitial').innerText = name.charAt(0).toUpperCase();
-        }
-
-        // YT PROMOTION SUBMIT
-        function submitYTPromo() {
+        // YOUTUBE SUBMIT
+        function submitYT() {
             const n = document.getElementById('ytName').value;
             const l = document.getElementById('ytLink').value;
             if(!n || !l) return alert("Fill details!");
-            db.collection("youtube_promotions").add({ name: n, link: l, status: "pending" })
-            .then(() => { alert("Channel Submitted!"); location.reload(); });
+            db.collection("yt_promotions").add({ name: n, link: l, status: "active", time: firebase.firestore.FieldValue.serverTimestamp() })
+            .then(() => { alert("Ad is now LIVE! Auto-approved."); location.reload(); });
         }
-
-        // SEARCH (Users & Products)
-        function handleSearch() {
-            const q = document.getElementById('mainSearch').value.toUpperCase();
-            const res = document.getElementById('searchResults');
-            if(q.length < 2) { res.classList.add('hidden'); return; }
-            res.classList.remove('hidden');
-            if(q.startsWith("VG-")) {
-                res.innerHTML = `<div class="card-lux p-4 flex justify-between items-center"><div><p class="text-xs gold-text font-black">${q}</p><p class="text-[7px] text-zinc-500 uppercase">System ID Detected</p></div><button class="text-[7px] bg-red-900/20 text-red-500 px-3 py-1 rounded-full font-black">INSPECT</button></div>`;
-            } else { res.innerHTML = `<p class="text-[8px] text-zinc-600 italic px-2">Searching Marketplace...</p>`; }
-        }
-
-        function showSection(type) {
-            toggleMenu();
-            // All sections (Sellers, Models, Refer) remain linked here
-        }
-
-        window.onload = () => setUI("Vinayak", "Mr");
     </script>
 </body>
 </html>
