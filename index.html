@@ -3,117 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>V-GLOBAL | Official</title>
+    <title>V-GLOBAL | Luxury Digital Ecosystem</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
     <style>
-        body { background-color: #050505; color: #ffffff; font-family: sans-serif; }
-        .gold-text { color: #D4AF37; }
-        .gold-bg { background: linear-gradient(45deg, #D4AF37, #f1c40f); }
-        .glass { background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(20px); }
-        .card-lux { background: #0f0f0f; border: 1px solid #1f1f1f; border-radius: 2rem; }
-        #sideMenu { transition: 0.4s; transform: translateX(100%); position: fixed; inset: 0; z-index: 200; background: #000; padding: 2rem; }
+        :root { --gold: #D4AF37; --dark: #050505; }
+        body { background-color: var(--dark); color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .gold-text { color: var(--gold); }
+        .gold-bg { background: linear-gradient(90deg, #BF953F, #FCF6BA, #B38728); }
+        .glass { background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(25px); border-bottom: 1px solid #222; }
+        .card-lux { background: linear-gradient(145deg, #0f0f0f, #1a1a1a); border: 1px solid #222; border-radius: 2.5rem; transition: 0.3s; }
+        .card-lux:hover { border-color: var(--gold); transform: translateY(-5px); }
+        #sideMenu { transition: 0.5s cubic-bezier(0.85, 0, 0.15, 1); transform: translateX(100%); position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); }
         #sideMenu.active { transform: translateX(0); }
+        .btn-premium { background: var(--gold); color: black; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; border-radius: 99px; transition: 0.3s; }
+        .btn-premium:active { transform: scale(0.9); }
+        .nav-title { font-family: 'Syncopate', sans-serif; letter-spacing: -1px; }
+        input { background: #111 !important; border: 1px solid #333 !important; color: white !important; }
     </style>
 </head>
-<body class="pb-24">
+<body class="pb-20">
 
-    <nav class="fixed top-0 w-full z-[100] glass border-b border-zinc-800 px-6 py-4 flex justify-between items-center">
-        <div class="text-2xl font-black italic uppercase">V-<span class="gold-text">GLOBAL</span></div>
-        <button onclick="toggleMenu()" class="text-3xl gold-text">⋮</button>
+    <nav class="fixed top-0 w-full z-[100] glass px-6 py-5 flex justify-between items-center">
+        <div class="nav-title text-xl font-bold italic">V-<span class="gold-text">GLOBAL</span></div>
+        <div class="flex gap-4 items-center">
+            <button onclick="openAuth()" id="loginBtn" class="text-[10px] font-black border border-zinc-700 px-5 py-2 rounded-full uppercase hover:bg-white hover:text-black transition">Login</button>
+            <button onclick="toggleMenu()" class="text-3xl gold-text">⋮</button>
+        </div>
     </nav>
 
     <div id="sideMenu">
-        <div class="flex justify-between items-center mb-10">
-            <h2 class="text-2xl font-black gold-text italic uppercase">Menu</h2>
-            <button onclick="toggleMenu()" class="text-4xl text-zinc-600">&times;</button>
-        </div>
-        <div class="space-y-4">
-            <div onclick="showSection('refer')" class="p-5 border-b border-zinc-900 flex justify-between items-center">
-                <p class="text-xs gold-text font-black uppercase">🔗 Refer & Earn</p>
-                <span class="text-zinc-700">❯</span>
+        <div class="p-8">
+            <div class="flex justify-between items-center mb-12">
+                <h2 class="nav-title text-2xl gold-text italic">DASHBOARD</h2>
+                <button onclick="toggleMenu()" class="text-5xl text-zinc-500 font-light">&times;</button>
             </div>
-            <div class="mt-20 opacity-10 text-center" onclick="openAdmin()">
-                <p class="text-[8px] tracking-[10px] uppercase">Master Access</p>
+            <div class="space-y-6">
+                <div onclick="showSection('refer')" class="card-lux p-6 flex justify-between items-center">
+                    <div><p class="text-xs gold-text font-black uppercase">🔗 Refer & Earn</p><p class="text-[8px] text-zinc-500 mt-1">Get 100 VC per invite</p></div>
+                    <span class="text-zinc-700 text-xl">❯</span>
+                </div>
+                <div onclick="showSection('market')" class="card-lux p-6 flex justify-between items-center">
+                    <div><p class="text-xs gold-text font-black uppercase">💼 Marketplace</p><p class="text-[8px] text-zinc-500 mt-1">V-Dresify Premium Collection</p></div>
+                    <span class="text-zinc-700 text-xl">❯</span>
+                </div>
+                <div onclick="showSection('model')" class="card-lux p-6 flex justify-between items-center">
+                    <div><p class="text-xs gold-text font-black uppercase">📸 Model Portal</p><p class="text-[8px] text-zinc-500 mt-1">Join V-Global Models</p></div>
+                    <span class="text-zinc-700 text-xl">❯</span>
+                </div>
+                <div class="mt-32 opacity-20 text-center" onclick="openAdmin()">
+                    <p class="text-[8px] tracking-[15px] uppercase font-bold">Admin Master</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <main id="mainContent" class="mt-24 px-6 space-y-10">
-        <div class="w-full h-52 bg-zinc-900 rounded-[2.5rem] relative overflow-hidden border border-zinc-800 shadow-2xl">
-            <div class="absolute inset-0 bg-gradient-to-t from-black p-8 flex flex-col justify-end">
-                <h1 class="text-2xl font-black italic uppercase leading-tight">V-GLOBAL <br><span class="gold-text">MODEL HUNT 2026</span></h1>
+    <main id="mainContent" class="mt-28 px-6 space-y-12">
+        
+        <div class="w-full h-64 card-lux relative overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80" class="absolute inset-0 w-full h-full object-cover opacity-40 shadow-inner">
+            <div class="absolute inset-0 bg-gradient-to-t from-black p-10 flex flex-col justify-end">
+                <span class="gold-bg text-black text-[8px] px-3 py-1 rounded-full w-fit font-black mb-3 uppercase tracking-tighter shadow-lg shadow-yellow-500/50">LIVE EVENT</span>
+                <h1 class="nav-title text-3xl font-black italic uppercase leading-none">V-GLOBAL <br><span class="gold-text">MODEL HUNT 2026</span></h1>
             </div>
         </div>
 
-        <div class="card-lux p-6 flex justify-between items-center">
+        <div class="card-lux p-8 flex justify-between items-center">
             <div>
-                <p class="text-[9px] text-zinc-500 font-bold uppercase tracking-widest">My Wallet</p>
-                <h2 id="userVC" class="text-2xl font-black italic">0 <span class="text-xs gold-text">VC</span></h2>
+                <p class="text-[9px] text-zinc-500 font-bold uppercase tracking-[0.3em]">Vault Balance</p>
+                <h2 id="balance" class="text-3xl font-black italic mt-1">0 <span class="text-xs gold-text">VC</span></h2>
             </div>
-            <button class="gold-bg text-black text-[10px] font-black px-6 py-2 rounded-full uppercase">Redeem</button>
+            <button class="btn-premium px-8 py-3 text-[10px] shadow-xl shadow-yellow-600/20">Withdraw</button>
+        </div>
+
+        <div class="space-y-6">
+            <div class="flex justify-between items-end px-2">
+                <h2 class="text-[10px] font-black gold-text tracking-[0.4em] uppercase">Featured Talent</h2>
+                <span class="text-[8px] text-zinc-600 uppercase">Live Now</span>
+            </div>
+            <div class="w-full aspect-video card-lux overflow-hidden border-zinc-800 shadow-2xl">
+                <iframe class="w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <div class="space-y-6 pb-12">
+            <h2 class="text-[10px] font-black text-zinc-500 tracking-[0.4em] uppercase px-2">Trending Products</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="card-lux p-4 space-y-4">
+                    <div class="aspect-square bg-zinc-900 rounded-3xl overflow-hidden shadow-inner border border-zinc-800">
+                        <img src="https://via.placeholder.com/300/111/D4AF37?text=NUTRI-FLEX" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold uppercase tracking-tight">Nutri-Flex Pro</p>
+                        <p class="text-xs gold-text font-black mt-1">Rs. 999</p>
+                    </div>
+                    <button class="w-full bg-zinc-900 border border-zinc-800 py-3 rounded-2xl text-[8px] font-black uppercase hover:bg-white hover:text-black transition">Order</button>
+                </div>
+            </div>
         </div>
     </main>
 
-    <div id="adminModal" class="hidden fixed inset-0 glass z-[500] flex items-center justify-center p-6 text-center">
-        <div id="adminContent" class="w-full max-w-sm bg-black border border-zinc-800 p-10 rounded-[3rem] shadow-2xl">
-            <h2 class="text-xl font-black gold-text mb-8 uppercase italic">Command Center</h2>
-            <input id="admPass" type="password" placeholder="Key" class="w-full bg-zinc-900 border border-zinc-800 p-4 rounded-xl mb-6 text-center text-white outline-none">
-            <button onclick="checkAdmin()" class="w-full gold-bg text-black py-4 rounded-2xl font-black uppercase tracking-widest">Unlock</button>
-            <button onclick="closeAdmin()" class="mt-4 text-[10px] text-zinc-600 uppercase">Exit</button>
+    <div id="authModal" class="hidden fixed inset-0 z-[2000] flex items-center justify-center p-6 bg-black/90 backdrop-blur-xl">
+        <div class="w-full max-w-sm card-lux p-10 border-zinc-700 shadow-[0_0_50px_rgba(212,175,55,0.1)]">
+            <div class="text-center mb-8">
+                <h2 class="nav-title text-2xl gold-text italic mb-2">ACCESS PORTAL</h2>
+                <p class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold">Secure V-Global Login</p>
+            </div>
+            <div class="space-y-4">
+                <input id="email" type="email" placeholder="Official Email" class="w-full bg-zinc-900 border border-zinc-800 p-4 rounded-2xl text-xs outline-none focus:border-gold-text transition">
+                <input id="pass" type="password" placeholder="Password" class="w-full bg-zinc-900 border border-zinc-800 p-4 rounded-2xl text-xs outline-none focus:border-gold-text transition">
+                <button onclick="handleAuth()" class="w-full btn-premium py-4 rounded-2xl text-xs mt-4 shadow-lg shadow-yellow-600/30">Enter System</button>
+                <div class="flex justify-between px-2 pt-4">
+                    <button onclick="alert('Signup logic link Firebase')" class="text-[9px] text-zinc-600 uppercase font-black hover:text-gold-text transition">Register</button>
+                    <button onclick="closeAuth()" class="text-[9px] text-zinc-600 uppercase font-black">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="adminModal" class="hidden fixed inset-0 z-[3000] flex items-center justify-center p-6 bg-black/95">
+        <div id="adminContent" class="w-full max-w-sm card-lux p-10 border-gold-text/20">
+            <h2 class="nav-title text-xl gold-text mb-8 text-center uppercase">Master Command</h2>
+            <input id="admPass" type="password" placeholder="System Key" class="w-full bg-zinc-900 border border-zinc-800 p-5 rounded-2xl mb-6 text-center text-white outline-none">
+            <button onclick="checkAdmin()" class="w-full btn-premium py-4 rounded-2xl text-[10px] tracking-widest">Execute Access</button>
+            <button onclick="closeAdmin()" class="mt-6 w-full text-[9px] text-zinc-700 uppercase font-black tracking-widest">Close Command Center</button>
         </div>
     </div>
 
     <script>
-        // FIREBASE CONFIG FROM SCREENSHOT
+        // CONFIG RESTORED
         const firebaseConfig = {
             apiKey: "AIzaSyAS_hCWbLbNfcZJ8CJOzR5OOWEhAixcjJU",
             authDomain: "v-global-eff1e.firebaseapp.com",
             projectId: "v-global-eff1e",
             storageBucket: "v-global-eff1e.firebasestorage.app",
             messagingSenderId: "686810708424",
-            appId: "1:686810708424:web:cef8d92f19a0e36ca168fd",
-            measurementId: "G-0SRBF0GD1J"
+            appId: "1:686810708424:web:cef8d92f19a0e36ca168fd"
         };
-
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        const auth = firebase.auth();
 
         const sideMenu = document.getElementById('sideMenu');
+        const authModal = document.getElementById('authModal');
         const adminModal = document.getElementById('adminModal');
-        const adminContent = document.getElementById('adminContent');
         const main = document.getElementById('mainContent');
 
         function toggleMenu() { sideMenu.classList.toggle('active'); }
+        function openAuth() { authModal.classList.remove('hidden'); }
+        function closeAuth() { authModal.classList.add('hidden'); }
         function openAdmin() { adminModal.classList.remove('hidden'); toggleMenu(); }
         function closeAdmin() { adminModal.classList.add('hidden'); }
 
-        // ADMIN LOGIN
+        // DARVAJA LOGIC
+        function handleAuth() {
+            const e = document.getElementById('email').value;
+            const p = document.getElementById('pass').value;
+            if(!e || !p) return alert("Bhai, Details toh daalo!");
+            
+            // Temporary Success Message (Until Firebase Auth Setup)
+            alert("Logging into V-Global...");
+            document.getElementById('loginBtn').innerText = e.split('@')[0].toUpperCase();
+            closeAuth();
+        }
+
+        // ADMIN PANEL RESTORED
         function checkAdmin() {
             const p = document.getElementById('admPass').value;
             if(p === 'vinayaktiwari#12') {
-                adminContent.innerHTML = `
+                document.getElementById('adminContent').innerHTML = `
                     <div class="space-y-4">
-                        <h2 class="text-xl font-black gold-text mb-6 uppercase italic">Master Mode</h2>
-                        <button onclick="alert('Database Connected!')" class="w-full bg-zinc-900 border border-zinc-800 p-4 rounded-xl text-left text-[10px] font-black uppercase gold-text">➕ Add Product</button>
-                        <button onclick="alert('VC Sync Active')" class="w-full bg-zinc-900 border border-zinc-800 p-4 rounded-xl text-left text-[10px] font-black uppercase gold-text">💰 Update VC</button>
-                        <button onclick="alert('Security Active')" class="w-full bg-zinc-900 border border-zinc-800 p-4 rounded-xl text-left text-[10px] font-black uppercase text-red-500">🚫 Ban / Unban User</button>
-                        <button onclick="location.reload()" class="w-full text-center text-zinc-600 text-[10px] mt-6 uppercase underline">Logout</button>
+                        <h2 class="nav-title text-xl gold-text mb-8 text-center italic">Master Mode</h2>
+                        <button class="w-full bg-zinc-900 border border-zinc-800 p-5 rounded-2xl text-left text-[10px] font-black uppercase gold-text flex justify-between"><span>➕ Add Product</span> <span class="opacity-30">❯</span></button>
+                        <button class="w-full bg-zinc-900 border border-zinc-800 p-5 rounded-2xl text-left text-[10px] font-black uppercase gold-text flex justify-between"><span>💰 Update VC Balance</span> <span class="opacity-30">❯</span></button>
+                        <button class="w-full bg-zinc-900 border border-zinc-800 p-5 rounded-2xl text-left text-[10px] font-black uppercase text-red-500 flex justify-between"><span>🚫 Ban / Unban User</span> <span class="opacity-30">❯</span></button>
+                        <button onclick="location.reload()" class="w-full text-center text-zinc-700 text-[10px] mt-8 uppercase font-bold tracking-widest underline">Terminate Session</button>
                     </div>`;
-            } else {
-                alert("Galat key!");
-            }
+            } else { alert("ACCESS DENIED: Galat Key!"); }
         }
 
         function showSection(type) {
             toggleMenu();
-            if(type === 'refer') {
-                main.innerHTML = `<div class="pt-6 text-center space-y-6"><h2 class="text-2xl font-black gold-text uppercase italic">Refer & Earn</h2><div class="card-lux p-10 border-dashed border-zinc-700"><p class="text-3xl gold-text">VG-797</p></div><button onclick="location.reload()" class="text-xs uppercase underline text-zinc-600">Back</button></div>`;
-            }
+            main.innerHTML = `<div class="pt-10 text-center animate-pulse"><p class="gold-text uppercase font-black tracking-widest">Loading ${type} Portal...</p></div>`;
+            setTimeout(() => {
+                if(type === 'refer') {
+                    main.innerHTML = `<div class="pt-10 text-center space-y-8"><h2 class="nav-title text-3xl gold-text italic uppercase">REFERRAL VAULT</h2><div class="card-lux p-12 border-dashed border-zinc-800"><p class="text-[10px] text-zinc-500 uppercase font-black mb-4">Your Invitation Code</p><p class="text-4xl font-black tracking-[10px] gold-text">VG-797</p></div><button onclick="location.reload()" class="text-zinc-600 uppercase text-[10px] underline font-black">Return Home</button></div>`;
+                }
+            }, 1000);
         }
     </script>
 </body>
