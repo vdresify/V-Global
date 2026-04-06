@@ -3,29 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>V-GLOBAL | Official Premium Hub</title>
+    <title>V-GLOBAL | Official</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
-        body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        body { background-color: #050505; color: #ffffff; font-family: sans-serif; }
         .gold-text { color: #D4AF37; }
         .gold-bg { background: linear-gradient(45deg, #D4AF37, #f1c40f); }
         .glass { background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(20px); }
         .card-lux { background: #0f0f0f; border: 1px solid #1f1f1f; border-radius: 2rem; }
-        #sideMenu { transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); transform: translateX(100%); position: fixed; inset: 0; z-index: 200; background: #000; padding: 2rem; }
+        #sideMenu { transition: 0.4s; transform: translateX(100%); position: fixed; inset: 0; z-index: 200; background: #000; padding: 2rem; }
         #sideMenu.active { transform: translateX(0); }
-        .input-dark { background: #111; border: 1px solid #222; padding: 15px; border-radius: 1rem; width: 100%; outline: none; color: white; text-align: center; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="pb-24 no-scrollbar">
+<body class="pb-24">
 
     <nav class="fixed top-0 w-full z-[100] glass border-b border-zinc-800 px-6 py-4 flex justify-between items-center">
-        <div class="text-2xl font-black tracking-tighter italic uppercase">V-<span class="gold-text">GLOBAL</span></div>
-        <div class="flex gap-4 items-center">
-            <button onclick="openAuth()" class="text-[10px] font-black border border-zinc-700 px-4 py-2 rounded-full uppercase">Login</button>
-            <button onclick="toggleMenu()" class="text-3xl gold-text leading-none">⋮</button>
-        </div>
+        <div class="text-2xl font-black italic uppercase">V-<span class="gold-text">GLOBAL</span></div>
+        <button onclick="toggleMenu()" class="text-3xl gold-text">⋮</button>
     </nav>
 
     <div id="sideMenu">
@@ -34,142 +31,88 @@
             <button onclick="toggleMenu()" class="text-4xl text-zinc-600">&times;</button>
         </div>
         <div class="space-y-4">
-            <div onclick="showSection('refer')" class="p-5 border-b border-zinc-900 flex justify-between items-center cursor-pointer hover:bg-zinc-900 rounded-xl transition">
-                <div><p class="text-xs gold-text font-black uppercase">🔗 Refer & Earn</p><p class="text-[9px] text-zinc-500 uppercase">Invite friends, get 100 VC</p></div>
+            <div onclick="showSection('refer')" class="p-5 border-b border-zinc-900 flex justify-between items-center">
+                <p class="text-xs gold-text font-black uppercase">🔗 Refer & Earn</p>
                 <span class="text-zinc-700">❯</span>
             </div>
-            
-            <div onclick="showSection('seller')" class="p-5 border-b border-zinc-900 flex justify-between items-center cursor-pointer hover:bg-zinc-900 rounded-xl transition">
-                <div><p class="text-xs gold-text font-black uppercase">💼 Seller Portal</p><p class="text-[9px] text-zinc-500 uppercase">List and Sell Products</p></div>
-                <span class="text-zinc-700">❯</span>
-            </div>
-
-            <div onclick="showSection('model')" class="p-5 border-b border-zinc-900 flex justify-between items-center cursor-pointer hover:bg-zinc-900 rounded-xl transition">
-                <div><p class="text-xs gold-text font-black uppercase">📸 Model Portal</p><p class="text-[9px] text-zinc-500 uppercase">Post Videos & Portfolio</p></div>
-                <span class="text-zinc-700">❯</span>
-            </div>
-
-            <div class="mt-24 opacity-10 text-center cursor-pointer" onclick="openAdmin()">
+            <div class="mt-20 opacity-10 text-center" onclick="openAdmin()">
                 <p class="text-[8px] tracking-[10px] uppercase">Master Access</p>
             </div>
         </div>
     </div>
 
     <main id="mainContent" class="mt-24 px-6 space-y-10">
-        
         <div class="w-full h-52 bg-zinc-900 rounded-[2.5rem] relative overflow-hidden border border-zinc-800 shadow-2xl">
             <div class="absolute inset-0 bg-gradient-to-t from-black p-8 flex flex-col justify-end">
-                <span class="text-[8px] gold-bg text-black px-2 py-1 rounded-full w-fit font-black mb-2 uppercase">Trending</span>
                 <h1 class="text-2xl font-black italic uppercase leading-tight">V-GLOBAL <br><span class="gold-text">MODEL HUNT 2026</span></h1>
             </div>
         </div>
 
-        <div class="space-y-4">
-            <h2 class="text-[10px] font-black gold-text tracking-[0.3em] uppercase italic">Top Talent Showcase</h2>
-            <div class="w-full aspect-video bg-zinc-900 rounded-[2rem] border border-zinc-800 overflow-hidden shadow-xl">
-                <iframe class="w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-            </div>
-        </div>
-
-        <div class="card-lux p-6 flex justify-between items-center bg-zinc-900/40 border-zinc-800">
+        <div class="card-lux p-6 flex justify-between items-center">
             <div>
-                <p class="text-[9px] text-zinc-500 font-bold uppercase tracking-widest">Available Balance</p>
-                <h2 class="text-2xl font-black italic">1,250 <span class="text-xs gold-text">VC</span></h2>
+                <p class="text-[9px] text-zinc-500 font-bold uppercase tracking-widest">My Wallet</p>
+                <h2 id="userVC" class="text-2xl font-black italic">0 <span class="text-xs gold-text">VC</span></h2>
             </div>
-            <button class="gold-bg text-black text-[10px] font-black px-6 py-2 rounded-full uppercase shadow-lg shadow-yellow-500/10">Redeem</button>
-        </div>
-
-        <div class="space-y-6 pb-20">
-            <div class="flex justify-between items-end">
-                <h2 class="text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em]">Marketplace</h2>
-                <span class="text-[9px] gold-text font-black uppercase">View All</span>
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="card-lux p-4 space-y-3">
-                    <div class="w-full h-32 bg-zinc-800 rounded-2xl overflow-hidden shadow-inner">
-                        <img src="https://via.placeholder.com/200" class="w-full h-full object-cover">
-                    </div>
-                    <p class="text-[10px] font-bold uppercase">Nutri-Flex Pro</p>
-                    <p class="text-xs gold-text font-black">Rs. 999</p>
-                    <button class="w-full bg-zinc-800 py-2 rounded-xl text-[8px] font-black uppercase hover:bg-zinc-700 transition">Buy Now</button>
-                </div>
-            </div>
+            <button class="gold-bg text-black text-[10px] font-black px-6 py-2 rounded-full uppercase">Redeem</button>
         </div>
     </main>
 
     <div id="adminModal" class="hidden fixed inset-0 glass z-[500] flex items-center justify-center p-6 text-center">
         <div id="adminContent" class="w-full max-w-sm bg-black border border-zinc-800 p-10 rounded-[3rem] shadow-2xl">
             <h2 class="text-xl font-black gold-text mb-8 uppercase italic">Command Center</h2>
-            <input id="admPass" type="password" placeholder="Enter Master Key" class="input-dark mb-6">
-            <button onclick="checkAdmin()" class="w-full gold-bg text-black py-4 rounded-2xl font-black uppercase tracking-widest">Unlock Access</button>
+            <input id="admPass" type="password" placeholder="Key" class="w-full bg-zinc-900 border border-zinc-800 p-4 rounded-xl mb-6 text-center text-white outline-none">
+            <button onclick="checkAdmin()" class="w-full gold-bg text-black py-4 rounded-2xl font-black uppercase tracking-widest">Unlock</button>
             <button onclick="closeAdmin()" class="mt-4 text-[10px] text-zinc-600 uppercase">Exit</button>
         </div>
     </div>
 
-    <div id="authModal" class="hidden fixed inset-0 glass z-[500] flex items-center justify-center p-6">
-        <div class="w-full max-w-sm bg-black border border-zinc-800 p-10 rounded-[3rem] text-center shadow-2xl">
-            <h2 class="text-2xl font-black gold-text mb-6 uppercase italic tracking-tighter">Sign In</h2>
-            <div class="space-y-4">
-                <input type="email" placeholder="Email Address" class="input-dark">
-                <input type="password" placeholder="Password" class="input-dark">
-                <button onclick="alert('Firebase Connection Required!')" class="w-full gold-bg text-black py-4 rounded-2xl font-black uppercase text-xs">Continue</button>
-            </div>
-            <button onclick="closeAuth()" class="mt-4 text-[10px] text-zinc-700 uppercase">Cancel</button>
-        </div>
-    </div>
-
     <script>
+        // FIREBASE CONFIG FROM SCREENSHOT
+        const firebaseConfig = {
+            apiKey: "AIzaSyAS_hCWbLbNfcZJ8CJOzR5OOWEhAixcjJU",
+            authDomain: "v-global-eff1e.firebaseapp.com",
+            projectId: "v-global-eff1e",
+            storageBucket: "v-global-eff1e.firebasestorage.app",
+            messagingSenderId: "686810708424",
+            appId: "1:686810708424:web:cef8d92f19a0e36ca168fd",
+            measurementId: "G-0SRBF0GD1J"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
         const sideMenu = document.getElementById('sideMenu');
         const adminModal = document.getElementById('adminModal');
         const adminContent = document.getElementById('adminContent');
-        const authModal = document.getElementById('authModal');
         const main = document.getElementById('mainContent');
 
         function toggleMenu() { sideMenu.classList.toggle('active'); }
         function openAdmin() { adminModal.classList.remove('hidden'); toggleMenu(); }
         function closeAdmin() { adminModal.classList.add('hidden'); }
-        function openAuth() { authModal.classList.remove('hidden'); }
-        function closeAuth() { authModal.classList.add('hidden'); }
 
-        // ADMIN ACCESS LOGIC
+        // ADMIN LOGIN
         function checkAdmin() {
             const p = document.getElementById('admPass').value;
             if(p === 'vinayaktiwari#12') {
                 adminContent.innerHTML = `
                     <div class="space-y-4">
                         <h2 class="text-xl font-black gold-text mb-6 uppercase italic">Master Mode</h2>
-                        <button onclick="alert('Form Opening...')" class="w-full bg-zinc-900 border border-zinc-800 p-4 rounded-xl text-left text-[10px] font-black uppercase gold-text">➕ Add New Product</button>
-                        <button onclick="alert('Opening Wallet Control...')" class="w-full bg-zinc-900 border border-zinc-800 p-4 rounded-xl text-left text-[10px] font-black uppercase gold-text">💰 Update User VC</button>
-                        <button onclick="alert('Opening Ban List...')" class="w-full bg-zinc-900 border border-zinc-800 p-4 rounded-xl text-left text-[10px] font-black uppercase text-red-500">🚫 Ban / Unban User</button>
-                        <button onclick="location.reload()" class="w-full text-center text-zinc-600 text-[10px] mt-6 uppercase underline">Logout Session</button>
+                        <button onclick="alert('Database Connected!')" class="w-full bg-zinc-900 border border-zinc-800 p-4 rounded-xl text-left text-[10px] font-black uppercase gold-text">➕ Add Product</button>
+                        <button onclick="alert('VC Sync Active')" class="w-full bg-zinc-900 border border-zinc-800 p-4 rounded-xl text-left text-[10px] font-black uppercase gold-text">💰 Update VC</button>
+                        <button onclick="alert('Security Active')" class="w-full bg-zinc-900 border border-zinc-800 p-4 rounded-xl text-left text-[10px] font-black uppercase text-red-500">🚫 Ban / Unban User</button>
+                        <button onclick="location.reload()" class="w-full text-center text-zinc-600 text-[10px] mt-6 uppercase underline">Logout</button>
                     </div>`;
             } else {
-                alert("Galat Password!");
+                alert("Galat key!");
             }
         }
 
-        // SECTION SWITCHER (Referral etc.)
         function showSection(type) {
             toggleMenu();
             if(type === 'refer') {
-                main.innerHTML = `
-                <div class="pt-6 text-center space-y-6">
-                    <h2 class="text-2xl font-black gold-text uppercase italic">Refer & Earn</h2>
-                    <div class="card-lux p-10 border-dashed border-zinc-700 bg-zinc-900/20">
-                        <p class="text-[10px] text-zinc-500 uppercase font-bold mb-4 tracking-widest">Share this unique code</p>
-                        <p class="text-3xl font-black tracking-[10px] mb-8 uppercase italic gold-text">VG-797</p>
-                        <button onclick="alert('Link Copied!')" class="gold-bg text-black px-10 py-3 rounded-full font-black text-[10px] uppercase shadow-lg shadow-yellow-500/20">Copy Link</button>
-                    </div>
-                    <div class="text-zinc-500 text-[10px] leading-loose">Har successful referral par payein <br><span class="gold-text font-bold uppercase">100 V-Coins</span> instantly!</div>
-                    <button onclick="location.reload()" class="mt-8 text-[10px] text-zinc-600 uppercase underline">Back to Home</button>
-                </div>`;
-            } else if(type === 'seller' || type === 'model') {
-                main.innerHTML = `
-                <div class="pt-10 text-center">
-                    <h2 class="text-xl font-black gold-text uppercase italic mb-4">${type} Portal</h2>
-                    <p class="text-zinc-500 text-xs">Aapka portal jald hi live hoga. <br>Firebase connecting...</p>
-                    <button onclick="location.reload()" class="mt-10 text-[10px] text-zinc-600 uppercase underline">Back</button>
-                </div>`;
+                main.innerHTML = `<div class="pt-6 text-center space-y-6"><h2 class="text-2xl font-black gold-text uppercase italic">Refer & Earn</h2><div class="card-lux p-10 border-dashed border-zinc-700"><p class="text-3xl gold-text">VG-797</p></div><button onclick="location.reload()" class="text-xs uppercase underline text-zinc-600">Back</button></div>`;
             }
         }
     </script>
