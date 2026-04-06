@@ -3,80 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>V-GLOBAL | Enterprise Edition</title>
+    <title>V-GLOBAL | Luxury Business System</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <style>
-        :root { --gold: #D4AF37; --dark: #050505; --card: #111111; }
+        :root { --gold: #D4AF37; --dark: #050505; }
         body { background-color: var(--dark); color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         .gold-text { color: var(--gold); }
         .gold-bg { background: linear-gradient(90deg, #BF953F, #FCF6BA, #B38728); }
-        .glass { background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(25px); border-bottom: 1px solid #222; }
-        .card-lux { background: var(--card); border: 1px solid #222; border-radius: 2rem; transition: 0.4s; position: relative; overflow: hidden; }
-        .card-lux:hover { border-color: var(--gold); }
-        .nav-title { font-family: 'Syncopate', sans-serif; letter-spacing: -1px; }
-        #sideMenu { transition: 0.6s cubic-bezier(0.85, 0, 0.15, 1); transform: translateX(100%); position: fixed; inset: 0; z-index: 1000; background: black; }
+        .glass { background: rgba(10, 10, 10, 0.96); backdrop-filter: blur(30px); border-bottom: 1px solid #222; }
+        .card-lux { background: #0c0c0c; border: 1px solid #1a1a1a; border-radius: 2rem; transition: 0.3s; }
+        .nav-title { font-family: 'Syncopate', sans-serif; letter-spacing: -1.5px; }
+        #sideMenu { transition: 0.6s cubic-bezier(0.85, 0, 0.15, 1); transform: translateX(100%); position: fixed; inset: 0; z-index: 1000; background: black; padding: 2rem; }
         #sideMenu.active { transform: translateX(0); }
-        .input-lux { background: #1a1a1a; border: 1px solid #333; padding: 15px; border-radius: 1.2rem; width: 100%; outline: none; color: white; font-size: 11px; transition: 0.3s; }
-        .input-lux:focus { border-color: var(--gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.1); }
-        .category-tag { background: rgba(212, 175, 55, 0.1); color: var(--gold); padding: 4px 10px; border-radius: 99px; font-size: 8px; font-weight: 900; text-transform: uppercase; }
-        .status-pill { padding: 2px 8px; border-radius: 5px; font-size: 8px; font-weight: bold; }
+        .search-input { background: #111; border: 1px solid #222; padding: 14px 22px; border-radius: 1.2rem; width: 100%; outline: none; font-size: 11px; transition: 0.3s; }
+        .search-input:focus { border-color: var(--gold); background: #161616; }
     </style>
 </head>
-<body class="pb-24">
+<body class="pb-32">
 
-    <nav class="fixed top-0 w-full z-[100] glass px-6 py-6 flex justify-between items-center">
-        <div class="nav-title text-xl font-bold italic tracking-tighter">V-<span class="gold-text">GLOBAL</span></div>
-        <div class="flex gap-4">
+    <nav class="fixed top-0 w-full z-[100] glass px-6 py-6">
+        <div class="flex justify-between items-center mb-5">
+            <div class="nav-title text-xl font-bold italic uppercase tracking-tighter">V-<span class="gold-text">GLOBAL</span></div>
             <button onclick="toggleMenu()" class="text-3xl gold-text">⋮</button>
         </div>
+        <input type="text" id="mainSearch" placeholder="Search products or members..." class="search-input">
     </nav>
 
     <div id="sideMenu">
-        <div class="p-8">
-            <div class="flex justify-between items-center mb-12">
-                <h2 class="nav-title text-2xl gold-text italic">CORE SYSTEM</h2>
-                <button onclick="toggleMenu()" class="text-5xl text-zinc-700 font-light">&times;</button>
+        <div class="flex justify-between items-center mb-12">
+            <h2 class="nav-title text-lg gold-text italic uppercase">Ecosystem</h2>
+            <button onclick="toggleMenu()" class="text-5xl text-zinc-800 font-light">&times;</button>
+        </div>
+        
+        <div class="space-y-4">
+            <div onclick="showSection('seller')" class="card-lux p-6 flex justify-between items-center">
+                <p class="text-[10px] gold-text font-black uppercase tracking-widest italic">💼 Seller Hub</p> <span>❯</span>
             </div>
-            <div class="space-y-6">
-                <div onclick="showSection('seller')" class="card-lux p-6 flex justify-between items-center border-zinc-800">
-                    <div><p class="text-[10px] gold-text font-black uppercase tracking-[0.2em]">Sellers Hub</p></div>
-                    <span class="text-zinc-700">❯</span>
-                </div>
-                <div onclick="showSection('inventory')" class="card-lux p-6 flex justify-between items-center border-zinc-800">
-                    <div><p class="text-[10px] gold-text font-black uppercase tracking-[0.2em]">Live Inventory</p></div>
-                    <span class="text-zinc-700">❯</span>
-                </div>
-                <div class="mt-48 opacity-10 text-center" onclick="openAdmin()">
-                    <p class="text-[8px] tracking-[15px] uppercase font-bold">Master Control</p>
-                </div>
+            <div onclick="showSection('model')" class="card-lux p-6 flex justify-between items-center">
+                <p class="text-[10px] gold-text font-black uppercase tracking-widest italic">📸 Model Portal</p> <span>❯</span>
             </div>
+            <div onclick="showSection('ads')" class="card-lux p-6 flex justify-between items-center">
+                <p class="text-[10px] gold-text font-black uppercase tracking-widest italic">📺 YouTuber Ads</p> <span>❯</span>
+            </div>
+            <div onclick="showSection('refer')" class="card-lux p-6 flex justify-between items-center">
+                <p class="text-[10px] gold-text font-black uppercase tracking-widest italic">🔗 Refer & Earn</p> <span>❯</span>
+            </div>
+        </div>
+
+        <div class="mt-16 pt-8 border-t border-zinc-900 space-y-6">
+            <div class="flex justify-around items-center">
+                <a href="https://wa.me/918808722351" class="text-[10px] gold-text uppercase font-black">WhatsApp</a>
+                <a href="#" class="text-[10px] gold-text uppercase font-black">Instagram</a>
+                <a href="#" class="text-[10px] gold-text uppercase font-black">YouTube</a>
+            </div>
+            <p class="text-[7px] text-zinc-600 text-center uppercase tracking-[0.5em]">24/7 Automated Support System</p>
+        </div>
+
+        <div class="mt-20 opacity-5 text-center" onclick="openAdmin()">
+            <p class="text-[8px] tracking-[20px] uppercase font-bold">Admin</p>
         </div>
     </div>
 
-    <main id="mainContent" class="mt-32 px-6 space-y-10">
+    <main id="mainContent" class="mt-48 px-6 space-y-10">
         <div class="card-lux p-8 flex justify-between items-center bg-gradient-to-br from-zinc-900 to-black">
             <div>
-                <p class="text-[8px] text-zinc-500 font-black uppercase tracking-[0.4em]">Vault Assets</p>
-                <h2 class="text-3xl font-black italic mt-1">1,250 <span class="text-xs gold-text">VC</span></h2>
+                <p class="text-[8px] text-zinc-500 font-black uppercase tracking-[0.4em]">Main Vault</p>
+                <h2 class="text-3xl font-black italic mt-1 tracking-tight">1,250 <span class="text-xs gold-text uppercase">VC</span></h2>
             </div>
-            <div class="h-12 w-12 gold-bg rounded-full flex items-center justify-center shadow-lg shadow-yellow-600/30">
-                <span class="text-black font-black text-xl">V</span>
+            <div class="w-12 h-12 gold-bg rounded-full flex items-center justify-center shadow-2xl shadow-yellow-600/20">
+                <span class="text-black font-black text-xl italic">V</span>
             </div>
         </div>
 
-        <div class="space-y-6">
-            <h2 class="text-[9px] font-black gold-text tracking-[0.5em] uppercase px-1 italic">Live Marketplace</h2>
-            <div id="marketDisplay" class="grid grid-cols-2 gap-4 pb-20">
+        <div class="space-y-4">
+            <h2 class="text-[9px] font-black gold-text tracking-[0.5em] uppercase italic px-1">Promotions</h2>
+            <div class="w-full aspect-video card-lux overflow-hidden">
+                <iframe class="w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <div id="marketArea" class="space-y-6 pb-20">
+            <h2 class="text-[9px] font-black text-zinc-600 tracking-[0.5em] uppercase px-1">Marketplace</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="card-lux p-4 space-y-3">
+                    <div class="aspect-square bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800">
+                        <img src="https://via.placeholder.com/300/111/D4AF37?text=V-Dresify" class="w-full h-full object-cover">
+                    </div>
+                    <p class="text-[9px] font-black uppercase italic">Luxury Product</p>
+                    <p class="text-xs gold-text font-black">₹1,499</p>
                 </div>
+            </div>
         </div>
     </main>
 
     <script>
-        // FIREBASE SETUP
+        // FIREBASE CONNECTION
         const firebaseConfig = {
             apiKey: "AIzaSyAS_hCWbLbNfcZJ8CJOzR5OOWEhAixcjJU",
             authDomain: "v-global-eff1e.firebaseapp.com",
@@ -93,99 +118,23 @@
 
         function toggleMenu() { sideMenu.classList.toggle('active'); }
 
-        // AUTOMATED SELLER & INVENTORY SYSTEM
+        // ALL FUNCTIONS SECTION
         function showSection(type) {
             toggleMenu();
             if(type === 'seller') {
-                main.innerHTML = `
-                <div class="pt-6 space-y-8 pb-20 animate-in fade-in duration-500">
-                    <div class="text-center">
-                        <h2 class="nav-title text-2xl gold-text italic">SELLER CONTROL</h2>
-                        <p class="text-[8px] text-zinc-600 uppercase tracking-widest mt-1">Today's Performance</p>
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-3">
-                        <div class="card-lux p-4 text-center">
-                            <p class="text-[7px] text-zinc-500 uppercase mb-1">Today</p>
-                            <p class="text-xs font-black gold-text italic">₹450</p>
-                        </div>
-                        <div class="card-lux p-4 text-center">
-                            <p class="text-[7px] text-zinc-500 uppercase mb-1">Weekly</p>
-                            <p class="text-xs font-black gold-text italic">₹3,200</p>
-                        </div>
-                        <div class="card-lux p-4 text-center">
-                            <p class="text-[7px] text-zinc-500 uppercase mb-1">Monthly</p>
-                            <p class="text-xs font-black gold-text italic">₹12,800</p>
-                        </div>
-                    </div>
-
-                    <div class="card-lux p-8 space-y-4 border-zinc-800">
-                        <p class="text-[9px] font-black uppercase italic mb-2 gold-text tracking-widest">＋ Automated Listing</p>
-                        <select id="pCat" class="input-lux">
-                            <option value="Electronics">Electronics</option>
-                            <option value="Fashion">Fashion</option>
-                            <option value="Nutri-Flex">Nutri-Flex</option>
-                            <option value="Luxury">Luxury Portfolio</option>
-                        </select>
-                        <input id="pName" placeholder="Product Title" class="input-lux">
-                        <input id="pPrice" placeholder="Price (INR)" class="input-lux" type="number">
-                        <input id="pStock" placeholder="Initial Stock Quantity" class="input-lux" type="number">
-                        <button onclick="autoListProduct()" class="w-full gold-bg py-4 text-[10px] font-black uppercase rounded-2xl shadow-xl shadow-yellow-600/20">Publish Automatically</button>
-                    </div>
-                    <button onclick="location.reload()" class="w-full text-center text-zinc-700 text-[9px] uppercase underline font-bold">Back to Ecosystem</button>
-                </div>`;
-            } else if(type === 'inventory') {
-                main.innerHTML = `
-                <div class="pt-6 space-y-6 pb-20">
-                    <h2 class="nav-title text-2xl gold-text italic text-center uppercase">Inventory Logs</h2>
-                    <div id="invTable" class="space-y-3">
-                        <p class="text-center text-zinc-600 text-[10px] animate-pulse">Syncing real-time stock...</p>
-                    </div>
-                </div>`;
-                syncInventory();
+                main.innerHTML = `<div class="pt-6 space-y-8 pb-20"><h2 class="nav-title text-2xl gold-text italic text-center uppercase">Seller Hub</h2><div class="card-lux p-8 space-y-4 border-zinc-800"><p class="text-[9px] font-black gold-text uppercase italic">Product Submission</p><input id="pName" placeholder="Name" class="search-input"><input id="pPrice" placeholder="Price" class="search-input"><button onclick="alert('Synced to Global Database!')" class="w-full gold-bg py-4 text-[10px] font-black uppercase rounded-2xl italic">Publish</button></div><button onclick="location.reload()" class="w-full text-center text-zinc-800 text-[9px] uppercase underline font-black">Back Home</button></div>`;
+            } else if(type === 'model') {
+                main.innerHTML = `<div class="pt-10 text-center space-y-8"><h2 class="nav-title text-2xl gold-text italic uppercase">Models Portal</h2><div class="card-lux p-10"><p class="text-[9px] text-zinc-500 mb-6 uppercase tracking-widest italic">Professional Casting</p><button class="gold-bg text-black px-10 py-4 rounded-full text-[10px] font-black uppercase italic shadow-xl">Apply for Casting</button></div><button onclick="location.reload()" class="text-zinc-800 text-[9px] uppercase underline mt-4">Back</button></div>`;
+            } else if(type === 'refer') {
+                main.innerHTML = `<div class="pt-10 text-center space-y-8"><h2 class="nav-title text-2xl gold-text italic uppercase">Referral System</h2><div class="card-lux p-12 border-zinc-800"><p class="text-[9px] text-zinc-500 mb-2 uppercase italic tracking-widest">Your Private Code</p><p class="text-4xl font-black gold-text tracking-[10px]">VG-MASTER</p></div><button onclick="location.reload()" class="text-zinc-800 text-[9px] uppercase underline mt-4 font-black">Back</button></div>`;
             }
         }
 
-        // AUTO LISTING LOGIC
-        function autoListProduct() {
-            const name = document.getElementById('pName').value;
-            const price = document.getElementById('pPrice').value;
-            const cat = document.getElementById('pCat').value;
-            const stock = document.getElementById('pStock').value;
-
-            if(!name || !price || !stock) return alert("Pura data bhariye!");
-
-            db.collection("inventory").add({
-                name, price, cat, stock: parseInt(stock), 
-                status: "Active",
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => {
-                alert("Inventory Updated Automatically!");
-                location.reload();
-            });
-        }
-
-        // SYNC INVENTORY DISPLAY
-        function syncInventory() {
-            db.collection("inventory").orderBy("timestamp", "desc").onSnapshot(snap => {
-                const table = document.getElementById('invTable');
-                table.innerHTML = "";
-                snap.forEach(doc => {
-                    const d = doc.data();
-                    table.innerHTML += `
-                    <div class="card-lux p-5 flex justify-between items-center border-zinc-900">
-                        <div>
-                            <span class="category-tag">${d.cat}</span>
-                            <p class="text-xs font-black uppercase mt-2 tracking-tight">${d.name}</p>
-                            <p class="text-[9px] text-zinc-500 mt-1">In Stock: <span class="${d.stock < 5 ? 'text-red-500' : 'text-green-500'} font-bold">${d.stock} Units</span></p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-xs gold-text font-black italic">₹${d.price}</p>
-                            <span class="status-pill bg-green-900/30 text-green-500 uppercase mt-2 block">Live</span>
-                        </div>
-                    </div>`;
-                });
-            });
+        function openAdmin() {
+            const p = prompt("Master Access Key:");
+            if(p === 'vinayaktiwari#12') {
+                main.innerHTML = `<div class="pt-10 space-y-4 text-center"><h2 class="nav-title text-xl gold-text italic">COMMAND CENTER</h2><div class="card-lux p-6 border-red-900/20 text-left"><p class="text-[7px] text-red-500 font-black uppercase mb-4 tracking-widest italic">Real-time Security Logs</p><p class="text-[8px] text-zinc-600 italic leading-relaxed">● No illegal activity detected.<br>● System monitoring active.<br>● Inventory logs syncing in background.</p></div><button onclick="location.reload()" class="text-zinc-800 text-[9px] uppercase mt-10 underline font-black tracking-widest">Terminate Session</button></div>`;
+            }
         }
     </script>
 </body>
