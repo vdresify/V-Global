@@ -89,39 +89,42 @@
         </div>
     </div>
 
-    <script>
-        const sideMenu = document.getElementById('sideMenu');
-        const adminModal = document.getElementById('adminModal');
-        const authModal = document.getElementById('authModal');
-        const main = document.getElementById('mainContent');
+   <script>
+    const sideMenu = document.getElementById('sideMenu');
+    const adminModal = document.getElementById('adminModal');
+    const authModal = document.getElementById('authModal');
+    const main = document.getElementById('mainContent');
 
-        function toggleMenu() { sideMenu.classList.toggle('active'); }
-        function openAdmin() { adminModal.classList.remove('hidden'); toggleMenu(); }
-        function closeAdmin() { adminModal.classList.add('hidden'); }
-        function openAuth() { authModal.classList.remove('hidden'); }
-        function closeAuth() { authModal.classList.add('hidden'); }
+    function toggleMenu() { sideMenu.classList.toggle('active'); }
+    function openAdmin() { adminModal.classList.remove('hidden'); toggleMenu(); }
+    function closeAdmin() { adminModal.classList.add('hidden'); }
+    function openAuth() { authModal.classList.remove('hidden'); }
+    function closeAuth() { authModal.classList.add('hidden'); }
 
-        function checkAdmin() {
-            const p = document.getElementById('admPass').value;
-            if(p === 'vinayaktiwari#12') {
-                adminModal.innerHTML = `
-                    <div class="p-2 space-y-4">
-                        <h2 class="text-xl font-black gold-text mb-6 uppercase italic">Master Mode</h2>
-                        <button class="w-full bg-zinc-900 border border-zinc-800 p-4 rounded-xl text-left text-xs font-bold uppercase gold-text">➕ Add Product</button>
-                        <button class="w-full bg-zinc-900 border border-zinc-800 p-4 rounded-xl text-left text-xs font-bold uppercase gold-text">💰 Update VC</button>
-                        <button onclick="location.reload()" class="w-full text-center text-zinc-600 text-[10px] mt-6 uppercase">Logout Session</button>
-                    </div>`;
-            } else {
-                alert("Galat password hai bhai! Fir se koshish karein.");
-            }
+    function checkAdmin() {
+        const p = document.getElementById('admPass').value;
+        if(p === 'vinayaktiwari#12') {
+            adminModal.innerHTML = `
+                <div class="p-2 space-y-4">
+                    <h2 class="text-xl font-black gold-text mb-6 uppercase italic text-center">Master Mode</h2>
+                    <button class="w-full bg-zinc-900 border border-zinc-800 p-4 rounded-xl text-left text-[10px] font-bold uppercase gold-text">➕ Add Product</button>
+                    <button class="w-full bg-zinc-900 border border-zinc-800 p-4 rounded-xl text-left text-[10px] font-bold uppercase gold-text">💰 Update VC</button>
+                    <button class="w-full bg-zinc-900 border border-zinc-800 p-4 rounded-xl text-left text-[10px] font-bold uppercase text-red-500">🚫 Ban / Unban User</button>
+                    <button onclick="location.reload()" class="w-full text-center text-zinc-600 text-[10px] mt-6 uppercase underline">Logout Session</button>
+                </div>`;
+        } else {
+            alert("Galat password hai bhai! Fir se koshish karein.");
         }
+    }
 
-        function showSection(type) {
-            toggleMenu();
-            if(type === 'refer') {
-                main.innerHTML = `<div class="pt-6 space-y-6"><h2 class="text-2xl font-black gold-text uppercase italic">Refer & Earn</h2><div class="card-lux p-10 text-center border-dashed border-zinc-700"><p class="text-[10px] text-zinc-500 uppercase font-bold mb-4">Your Referral Link</p><p class="text-2xl font-black tracking-widest mb-6 uppercase italic">V-GLOBAL-797</p><button class="gold-bg text-black px-10 py-3 rounded-full font-black text-[10px] uppercase">Copy Link</button></div><button onclick="location.reload()" class="text-[10px] text-zinc-600 uppercase underline">Back to Home</button></div>`;
-            }
+    function showSection(type) {
+        toggleMenu();
+        if(type === 'refer') {
+            main.innerHTML = `<div class="pt-6 space-y-6"><h2 class="text-2xl font-black gold-text uppercase italic">Refer & Earn</h2><div class="card-lux p-10 text-center border-dashed border-zinc-700"><p class="text-[10px] text-zinc-500 uppercase font-bold mb-4">Your Referral Link</p><p class="text-2xl font-black tracking-widest mb-6 uppercase italic">V-GLOBAL-797</p><button class="gold-bg text-black px-10 py-3 rounded-full font-black text-[10px] uppercase">Copy Link</button></div><button onclick="location.reload()" class="text-[10px] text-zinc-600 uppercase underline">Back to Home</button></div>`;
         }
-    </script>
+        // Aap yahan Seller aur Model ke liye naye sections add kar sakte hain
+    }
+   </script>
+    
 </body>
 </html>
